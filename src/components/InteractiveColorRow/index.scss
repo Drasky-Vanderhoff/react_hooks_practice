@@ -1,0 +1,10 @@
+.interactive-color-box-row {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  align-items: center;
+
+  .item {
+    margin: 10px;
+  }
+}

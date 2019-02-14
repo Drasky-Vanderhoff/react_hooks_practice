@@ -1,0 +1,7 @@
+.color-box {
+  width: 60px;
+  height: 60px;
+  &.highlighted {
+    border: 5px solid;
+  }
+}
