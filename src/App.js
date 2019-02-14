@@ -33,13 +33,13 @@ class App extends Component {
     return (
       <div className="app">
         <InteractiveColorRow 
-          colorBoxesProps={config.availableColorPairs} 
+          colorBoxes={config.availableColorPairs} 
           onSelectedColorRow={this.setSelectionColor}
           descriptionText={config.selectorDescriptionText}
           />
         <InputBox text={config.text} onSelectedText={this.saveSelectedText} />
         <InteractiveColorRow 
-          colorBoxesProps={config.availableColorPairs} 
+          colorBoxes={config.availableColorPairs} 
           onSelectedColorRow={this.setFilterColor} 
           descriptionText={config.filterDescriptionText}
         />
