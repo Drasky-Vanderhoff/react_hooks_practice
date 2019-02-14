@@ -3,27 +3,30 @@ import PropTypes from 'prop-types'
 import './index.scss'
 
 const ColorTextPresenter = ({
-  colorTextItems
+  colorTextItemsLists
 }) => (
   <blockquote className="color-text-presenter">
-    {Object.keys(colorTextItems).map(
-      color => (colorTextItems[color] || []).map(
-        textItem => <>
-          <mark style={{backgroundColor: color}}>{textItem}</mark><br/><br/>
-        </>
-      )
+    {colorTextItemsLists.map(
+      ({color, textItems}) => (textItems || []).map(textItem => <>
+        <mark style={{backgroundColor: color}}>{textItem}</mark><br/><br/>
+      </>)
     )}
   </blockquote>
 );
 
 export const ColorTextPresenterPropTypes = {
-  colorTextItems: PropTypes.object
+  colorTextItemsLists: PropTypes.arrayOf(
+    PropTypes.shape({
+      color: PropTypes.string,
+      textItems: PropTypes.arrayOf(PropTypes.string)
+    })
+  )
 }
 
 ColorTextPresenter.propTypes = ColorTextPresenterPropTypes
 
 ColorTextPresenter.defaultProps = {
-  colorTextItems: {}
+  colorTextItemsLists: []
 }
 
 export default ColorTextPresenter

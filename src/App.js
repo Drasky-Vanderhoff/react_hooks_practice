@@ -9,14 +9,16 @@ import './App.scss';
 
 class App extends Component {  
   constructor(props) {
-    super(props);
+    super(props)
+
     const highlightedColor = config.availableColorPairs.find(
       ({isHighlighted}) => isHighlighted
-    ).background || "";
+    ).background || ""
+
     this.state = {
       selectionColor: highlightedColor,
-      filterColor: highlightedColor
-    };
+      filterColor: [highlightedColor]
+    }
   }
 
   saveSelectedText = (selectionStart, selectionEnd) => {this.props.saveSelectedText(
@@ -26,9 +28,13 @@ class App extends Component {
     config.text
   )}
 
-  setSelectionColor = (selectionColor) => this.setState({selectionColor});
-  setFilterColor = (filterColor) => this.setState({filterColor});
+  setSelectionColor = ([selectionColor]) => this.setState({selectionColor})
+  setFilterColor = (filterColor) => this.setState({filterColor})
 
+  _generateFilteredColorTextItems = () => this.state.filterColor.map(
+    color => ({color: color, textItems: this.props.higlightedTextItems[color]})
+  )
+  
   render() {
     return (
       <div className="app">
@@ -36,14 +42,16 @@ class App extends Component {
           colorBoxes={config.availableColorPairs} 
           onSelectedColorRow={this.setSelectionColor}
           descriptionText={config.selectorDescriptionText}
-          />
+          multipleSelections={false}
+        />
         <InputBox text={config.text} onSelectedText={this.saveSelectedText} />
         <InteractiveColorRow 
           colorBoxes={config.availableColorPairs} 
           onSelectedColorRow={this.setFilterColor} 
           descriptionText={config.filterDescriptionText}
+          multipleSelections={true}
         />
-        <ColorTextPresenter colorTextItems={{[this.state.filterColor]: this.props.higlightedTextItems[this.state.filterColor]}} />
+        <ColorTextPresenter colorTextItemsLists={this._generateFilteredColorTextItems()} />
       </div>
     );
   }
