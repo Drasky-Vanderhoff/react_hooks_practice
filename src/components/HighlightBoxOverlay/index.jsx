@@ -31,8 +31,8 @@ export default ({text, highlightMarkers, children}) => {
           {input.slice(selectionEnd)}
         </span>
       )        
-    ) */
-  }
+    ) 
+  }*/
 
   const getHighlights = () => {
     let highlightText = text;
