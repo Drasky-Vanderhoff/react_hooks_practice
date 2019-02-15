@@ -3,15 +3,14 @@ import PropTypes from 'prop-types'
 import './index.scss'
 
 const ColorTextPresenter = ({
-  colorTextBlocksLists,
-  text
+  colorTextItemsLists
 }) => (
   <blockquote className="color-text-presenter">
-    {colorTextBlocksLists.map(
-      ({color, textBlocks}) => (textBlocks || []).map(
-        ({selectionStart, selectionEnd}) => <>
+    {colorTextItemsLists.map(
+      ({color, textItems}) => textItems.map(
+        text => <>
           <mark style={{backgroundColor: color}}>
-            {text.slice(selectionStart, selectionEnd)}
+            {text}
           </mark>
           <br/>
         </>
@@ -21,22 +20,18 @@ const ColorTextPresenter = ({
 );
 
 export const ColorTextPresenterPropTypes = {
-  colorTextBlocksLists: PropTypes.arrayOf(
+  colorTextItemsLists: PropTypes.arrayOf(
     PropTypes.shape({
       color: PropTypes.string,
-      textBlocks: PropTypes.arrayOf(PropTypes.shape({
-        selectionStart: PropTypes.number,
-        selectionEnd: PropTypes.number
-      }))
+      textItems: PropTypes.arrayOf(PropTypes.string)
     })
-  ),
-  text: PropTypes.string
+  )
 }
 
 ColorTextPresenter.propTypes = ColorTextPresenterPropTypes
 
 ColorTextPresenter.defaultProps = {
-  colorTextBlocksLists: []
+  colorTextItemsLists: []
 }
 
 export default ColorTextPresenter

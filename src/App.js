@@ -26,7 +26,8 @@ class App extends Component {
   saveSelectedText = (selectionStart, selectionEnd) => this.props.saveSelectedText(
     this.state.selectionColor,
     selectionStart,
-    selectionEnd
+    selectionEnd,
+    this.state.currentText
   )
 
   setSelectionColor = ([selectionColor]) => this.setState({selectionColor})
@@ -42,7 +43,10 @@ class App extends Component {
   }
 
   _generateFilteredColorTextItems = () => this.state.filterColor.map(
-    color => ({color: color, textBlocks: this.props.higlightedTextItems[color]})
+    color => ({
+      color: color,
+      textItems: (this.props.higlightedTextItems[color] || []).map(({subtext}) => subtext)
+    })
   )
   
   render() {
@@ -70,7 +74,7 @@ class App extends Component {
           descriptionText={config.filterDescriptionText}
           multipleSelections={true}
         />
-        <ColorTextPresenter colorTextBlocksLists={this._generateFilteredColorTextItems()} text={this.state.currentText} />
+        <ColorTextPresenter colorTextItemsLists={this._generateFilteredColorTextItems()} />
       </div>
     );
   }
