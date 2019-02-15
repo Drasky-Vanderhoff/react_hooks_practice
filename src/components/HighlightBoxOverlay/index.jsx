@@ -1,7 +1,8 @@
-import React from 'react';
+import React from 'react'
+import PropTypes from 'prop-types'
 import './index.scss'
 
-export default ({text, highlightMarkers, children}) => {
+const HighlightBoxOverlay = ({text, highlightMarkers, children}) => {
   const handleHighlight = (input, highlightMarkers) => {
     return highlightMarkers.map(
       ({selectionStart, selectionEnd, color}) => (
@@ -23,3 +24,21 @@ export default ({text, highlightMarkers, children}) => {
     </div>
   )
 }
+
+export const HighlightBoxOverlayPropTypes = {
+  text: PropTypes.string,
+  highlightMarkers: PropTypes.arrayOf(PropTypes.shape({
+    selectionStart: PropTypes.number,
+    selectionEnd: PropTypes.number,
+    color: PropTypes.string
+  }))
+}
+
+HighlightBoxOverlay.propTypes = HighlightBoxOverlayPropTypes
+
+HighlightBoxOverlay.defaultProps = {
+  text: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+  highlightMarkers: []
+}
+
+export default HighlightBoxOverlay

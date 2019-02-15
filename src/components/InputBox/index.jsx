@@ -5,8 +5,7 @@ import './index.scss'
 const InputBox = ({
     text,
     onSelectedText,
-    onChangeText,
-    onScroll
+    onChangeText
   }) => {
   const textareaEl = useRef(null)
 
