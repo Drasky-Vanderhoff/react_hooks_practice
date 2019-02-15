@@ -4,6 +4,7 @@ import { saveSelectedText } from 'actions'
 import InteractiveColorRow from 'components/InteractiveColorRow';
 import InputBox from 'components/InputBox';
 import ColorTextPresenter from 'components/ColorTextPresenter';
+import HighlightBoxOverlay from 'components/HighlightBoxOverlay';
 import config from './config.json';
 import './App.scss';
 
@@ -16,23 +17,32 @@ class App extends Component {
     ).background || ""
 
     this.state = {
+      currentText: config.text,
       selectionColor: highlightedColor,
       filterColor: [highlightedColor]
     }
   }
 
-  saveSelectedText = (selectionStart, selectionEnd) => {this.props.saveSelectedText(
+  saveSelectedText = (selectionStart, selectionEnd) => this.props.saveSelectedText(
     this.state.selectionColor,
     selectionStart,
-    selectionEnd,
-    config.text
-  )}
+    selectionEnd
+  )
 
   setSelectionColor = ([selectionColor]) => this.setState({selectionColor})
   setFilterColor = (filterColor) => this.setState({filterColor})
+  setCurrentText = (currentText) => this.setState({currentText})
+
+  _generateHighlightMakers = () => {
+    const higlightedTextItems = Object.values(this.props.higlightedTextItems)
+    
+    return higlightedTextItems.length ? higlightedTextItems.reduce(
+      (prev, current) => [...prev, ...current]
+    ) : []
+  }
 
   _generateFilteredColorTextItems = () => this.state.filterColor.map(
-    color => ({color: color, textItems: this.props.higlightedTextItems[color]})
+    color => ({color: color, textBlocks: this.props.higlightedTextItems[color]})
   )
   
   render() {
@@ -44,14 +54,23 @@ class App extends Component {
           descriptionText={config.selectorDescriptionText}
           multipleSelections={false}
         />
-        <InputBox text={config.text} onSelectedText={this.saveSelectedText} />
+        <HighlightBoxOverlay highlightMarkers={this._generateHighlightMakers()}
+          text={this.state.currentText}
+        >
+          <InputBox 
+            text={this.state.currentText}
+            onSelectedText={this.saveSelectedText}
+            onChangeText={this.setCurrentText}
+          />
+        </HighlightBoxOverlay>
+        
         <InteractiveColorRow 
           colorBoxes={config.availableColorPairs} 
           onSelectedColorRow={this.setFilterColor} 
           descriptionText={config.filterDescriptionText}
           multipleSelections={true}
         />
-        <ColorTextPresenter colorTextItemsLists={this._generateFilteredColorTextItems()} />
+        <ColorTextPresenter colorTextBlocksLists={this._generateFilteredColorTextItems()} text={this.state.currentText} />
       </div>
     );
   }

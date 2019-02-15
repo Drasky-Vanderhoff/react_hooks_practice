@@ -1,24 +1,25 @@
-import React, {useRef, useState} from 'react'
+import React, {useRef} from 'react'
 import PropTypes from 'prop-types'
 import './index.scss'
 
 const InputBox = ({
     text,
-    onSelectedText
+    onSelectedText,
+    onChangeText,
+    onScroll
   }) => {
-  const textareaEl = useRef(null);
-  const [currentText, onTextChange] = useState(text);
+  const textareaEl = useRef(null)
 
   return (
     <textarea
       className="input-box"
       ref={textareaEl}
-      value={currentText} 
-      onClick={(currentText) => {
+      value={text} 
+      onClick={() => {
         const {selectionStart, selectionEnd} = textareaEl.current
-        if (selectionStart !== selectionEnd) onSelectedText(selectionStart, selectionEnd);
+        if (selectionStart !== selectionEnd) onSelectedText(selectionStart, selectionEnd)
       }}
-      onChange={({target:{value}}) => onTextChange(value)}
+      onInput={event => onChangeText(event.target.value)}
     />
   )
 }

@@ -1,0 +1,38 @@
+.highlight-box-overlay {
+	display: block;
+	margin: 0 auto;
+	width: 500px;
+	height: 250px;
+	font-family: monospace;
+	text-align: left;
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+	}
+
+	.backdrop{
+		width: 500px;
+		height: 250px;
+	}
+
+	.highlights {
+		padding: 10px;
+		letter-spacing: 1px;
+	}
+
+	.backdrop {
+		position: absolute;
+		overflow: auto;
+	}
+
+	.highlights {
+		white-space: pre-wrap;
+		word-wrap: break-word;
+		color: transparent;
+	}
+	
+	mark {
+		color: transparent;
+	}
+}
